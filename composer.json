@@ -1,0 +1,14 @@
+{
+    "name": "lava/magmacore",
+    "description": "A simple PHP framework for building web application",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "TheCodingWorkshop",
+            "email": "riccodingworkshop@gmail.com"
+        }
+    ],
+    "minimum-stability": "alpha",
+    "require": {}
+}
