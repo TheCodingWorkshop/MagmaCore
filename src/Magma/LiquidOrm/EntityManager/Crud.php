@@ -19,6 +19,14 @@ class Crud implements CrudInterface
 
     protected string $tableSchemaID;
 
+    /**
+     * Main constructor
+     *
+     * @param DataMapper $dataMapper
+     * @param QueryBuilder $queryBuilder
+     * @param string $tableSchema
+     * @param string $tableSchemaID
+     */
     public function __construct(DataMapper $dataMapper, QueryBuilder $queryBuilder, string $tableSchema, string $tableSchemaID)
     {
         $this->dataMapper = $dataMapper;
@@ -27,23 +35,41 @@ class Crud implements CrudInterface
         $this->tableSchemaID = $tableSchemaID;
     }
 
+    /**
+     * @inheritdoc
+     *
+     * @return string
+     */
     public function getSchema() : string
     {
         return $this->tableSchema;
     }
 
+    /**
+     * @inheritdoc
+     *
+     * @return string
+     */
     public function getSchemaID() : string
     {
         return $this->tableSchemaID;
     }
 
+    /**
+     * @inheritdoc
+     *
+     * @return integer
+     */
     public function lastID() : int
     {
         return $this->dataMapper->getLastId();
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
+     *
+     * @param array $fields
+     * @return boolean
      */
     public function create(array $fields = []) : bool
     {
@@ -59,6 +85,15 @@ class Crud implements CrudInterface
         }
     }
 
+    /**
+     * @inheritdoc
+     *
+     * @param array $selectors
+     * @param array $conditions
+     * @param array $parameters
+     * @param array $optional
+     * @return array
+     */
     public function read(array $selectors = [], array $conditions = [], array $parameters = [], array $optional = []) : array
     {
         try{
@@ -73,6 +108,13 @@ class Crud implements CrudInterface
         }
     }
 
+    /**
+     * @inheritdoc
+     *
+     * @param array $fields
+     * @param string $primaryKey
+     * @return boolean
+     */
     public function update(array $fields = [], string $primaryKey) : bool
     {
         try {
@@ -87,6 +129,12 @@ class Crud implements CrudInterface
         }
     }
 
+    /**
+     * @inheritdoc
+     *
+     * @param array $conditions
+     * @return boolean
+     */
     public function delete(array $conditions = []) : bool
     {
         try {
@@ -101,6 +149,13 @@ class Crud implements CrudInterface
         }
     }
 
+    /**
+     * @inheritdoc
+     *
+     * @param array $selectors
+     * @param array $conditions
+     * @return array
+     */
     public function search(array $selectors = [], array $conditions = []) : array
     {
         try {
@@ -116,9 +171,25 @@ class Crud implements CrudInterface
 
     }
 
+    /**
+     * @inheritdoc
+     *
+     * @param string $rawQuery
+     * @param array|null $conditions
+     * @return void
+     */
     public function rawQuery(string $rawQuery, ?array $conditions = [])
     {
+        try{
+            $args = ['table' => $this->getSchema(), 'type' => 'raw', 'raw' => $rawQuery, 'conditions' => $conditions];
+            $query = $this->queryBuilder->buildQuery($args)->rawQuery();
+            $this->dataMapper->persist($query, $this->dataMapper->buildQueryParameters($conditions));
+            if ($this->dataMapper->numRows()) {
 
+            }
+        }catch(Throwable $throwable) {
+            throw $throwable;
+        }
     }
 
 
