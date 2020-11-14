@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\DataMapper;
 
+use Magma\LiquidOrm\DataMapper\Exception\DataMapperException;
 use Magma\DatabaseConnection\DatanaseConnectionInterface;
+use Magma\DatabaseConnection\DatabaseConnectionInterface;
 use PDOStatement;
+use Throwable;
+use PDO;
 
 class DataMapper implements DataMapperInterface
 {
@@ -22,12 +26,23 @@ class DataMapper implements DataMapperInterface
 
     /**
      * Main constructor class
+     * 
+     * @param DatabaseConnectionInterface
+     * @return void
      */
-    public function __construct(DatabaseConnectionInterface $db)
+    public function __construct(DatabaseConnectionInterface $dbh)
     {
         $this->dbh = $dbh;
     }
 
+    /**
+     * Check the incoming $valis isn't empty else throw an exception
+     * 
+     * @param mixed $value
+     * @param string|null $errorMessage
+     * @return void
+     * @throws DataMapperException
+     */
     private function isEmpty($value, string $errorMessage = null)
     {
         if (empty($value)) {
@@ -35,6 +50,13 @@ class DataMapper implements DataMapperInterface
         }
     }
 
+    /**
+     * Check the incoming argument $value is an array else throw an exception
+     * 
+     * @param array $value
+     * @return void
+     * @throws DataMapperException
+     */
     private function isArray(array $value)
     {
         if (!is_array($value)) {
@@ -106,6 +128,15 @@ class DataMapper implements DataMapperInterface
         return $this->statement;
     }
 
+    /**
+     * Binds a value to a corresponding name or question mark placeholder
+     * in the SQL statement that was used to prepare the statement. Similar to
+     * above but optimised for search queries
+     * 
+     * @param array $fields
+     * @return mixed
+     * @throws DataMapperException
+     */
     protected function bindSearchValues(array $fields) :  PDOStatement
     {
         $this->isArray($fields);
@@ -120,35 +151,29 @@ class DataMapper implements DataMapperInterface
      */
     public function execute()
     {
-        if ($this->statement)
+        if ($this->statement) 
             return $this->statement->execute();
     }
-
     /**
      * @inheritDoc
      */
-    public function numRows()
+    public function numRows() : int
     {
-        if ($this->statement)
-            return $this->statement->rowCount();
+        if ($this->statement) return $this->statement->rowCount();
     }
-
     /**
      * @inheritDoc
      */
     public function result() : Object
     {
-        if ($this->statement)
-            return $this->statement->fetch(PDO::FETCH_OBJ);
+        if ($this->statement) return $this->statement->fetch(PDO::FETCH_OBJ);
     }
-
     /**
      * @inheritDoc
      */
     public function results() : array
     {
-        if ($this->statement)
-            return $this->statement->fetchAll();
+        if ($this->statement) return $this->statement->fetchAll();
     }
 
     /**
@@ -169,11 +194,26 @@ class DataMapper implements DataMapperInterface
         }
     }
 
-    public function buildQueryParameters(array $conditions, array $parameters)
+    /**
+     * Returns the query condition merged with the query parameters
+     * 
+     * @param array $conditions
+     * @param array $parameters
+     * @return array
+     */
+    public function buildQueryParameters(array $conditions = [], array $parameters = []) : array
     {
         return (!empty($parameters) || (!empty($conditions)) ? array_merge($conditions, $parameters) : $parameters);
     }
 
+    /**
+     * Persist queries to database
+     * 
+     * @param string $query
+     * @param array $parameters
+     * @return mixed
+     * @throws Throwable
+     */
     public function persist(string $sqlQuery, array $parameters)
     {
         try {

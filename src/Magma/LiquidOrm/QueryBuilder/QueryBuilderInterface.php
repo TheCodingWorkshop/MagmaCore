@@ -17,6 +17,6 @@ interface QueryBuilderInterface
 
     public function searchQuery() : string;
 
-    public function rawQeury() : string;
+    public function rawQuery() : string;
 
 }

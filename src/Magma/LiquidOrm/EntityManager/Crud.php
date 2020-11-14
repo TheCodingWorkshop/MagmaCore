@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\EntityManager;
 
+use Magma\LiquidOrm\DataMapper\DataMapper;
+use Magma\LiquidOrm\QueryBuilder\QueryBuilder;
+use Throwable;
+
 class Crud implements CrudInterface
 {
 
@@ -38,6 +42,9 @@ class Crud implements CrudInterface
         return $this->dataMapper->getLastId();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function create(array $fields = []) : bool
     {
         try {
@@ -106,6 +113,11 @@ class Crud implements CrudInterface
         }catch(Throwable $throwable) {
             throw $throwable;
         }
+
+    }
+
+    public function rawQuery(string $rawQuery, ?array $conditions = [])
+    {
 
     }
 

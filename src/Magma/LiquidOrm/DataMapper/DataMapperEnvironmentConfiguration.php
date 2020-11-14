@@ -35,7 +35,7 @@ class DataMapperEnvironmentConfiguration
     {
         $connectionArray = [];
         foreach ($this->credentials as $credential) {
-            if (array_key_exists($driver, $credentials)) {
+            if (array_key_exists($driver, $credential)) {
                 $connectionArray = $credential[$driver];
             }
         }
@@ -56,7 +56,7 @@ class DataMapperEnvironmentConfiguration
         if (!is_array($this->credentials)) {
             throw new DataMapperInvalidArgumentException('Invalid credentials');
         }
-        if (!in__array($driver, array_keys($this->credentials[$driver]))) {
+        if (!in_array($driver, array_keys($this->credentials[$driver]))) {
             throw new DataMapperInvalidArgumentException('Invalid or unsupport database driver.');
         }
     }
