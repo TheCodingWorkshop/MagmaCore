@@ -168,4 +168,18 @@ class DataMapper implements DataMapperInterface
             throw $throwable;
         }
     }
+
+    public function buildQueryParameters(array $conditions, array $parameters)
+    {
+        return (!empty($parameters) || (!empty($conditions)) ? array_merge($conditions, $parameters) : $parameters);
+    }
+
+    public function persist(string $sqlQuery, array $parameters)
+    {
+        try {
+            return $this->prepare($sqlQuery)->bindParameters($parameters)->execute();
+        } catch(Throwable $throwable){
+            throw $throwable;
+        }
+    }
 }
