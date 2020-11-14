@@ -48,7 +48,7 @@ class DatabaseConnection implements DatabaseConnectionInterface
                 $this->credentials['password'],
                 $params
             );
-        } catch(PDOException $expection) {
+        } catch(Exception $expection) {
             throw new DatabaseConnectionException($expection->getMessage(), (int)$expection->getCode());
         }
 

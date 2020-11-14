@@ -8,7 +8,7 @@ use PDOException;
 
 class DatabaseConnectionException extends PDOException
 {
-
+    
     /**
      * Main constructor class which overrides the parent constructor and set the message
      * and the code properties which is optional
