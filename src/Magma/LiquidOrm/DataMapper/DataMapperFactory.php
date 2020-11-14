@@ -18,6 +18,14 @@ class DataMapperFactory
     public function __construct()
     { }
 
+    /**
+     * Creates the data mapper object and inject the dependency for this object
+     *
+     * @param string $databaseConnectionString
+     * @param string $dataMapperEnvironmentConfiguration
+     * @return DataMapperInterface
+     * @throws DataMapperException
+     */
     public function create(string $databaseConnectionString, string $dataMapperEnvironmentConfiguration) : DataMapperInterface
     {
         $credentials = (new $dataMapperEnvironmentConfiguration([]))->getDatabaseCredentials('mysql');

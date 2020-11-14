@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Magma\LiquidOrm\DataMapper;
 
 use Magma\LiquidOrm\DataMapper\Exception\DataMapperException;
-use Magma\DatabaseConnection\DatanaseConnectionInterface;
 use Magma\DatabaseConnection\DatabaseConnectionInterface;
 use PDOStatement;
 use Throwable;
@@ -75,6 +74,9 @@ class DataMapper implements DataMapperInterface
 
     /**
      * @inheritDoc
+     *
+     * @param [type] $value
+     * @return void
      */
     public function bind($value)
     {
@@ -99,6 +101,10 @@ class DataMapper implements DataMapperInterface
 
     /**
      * @inheritDoc
+     *
+     * @param array $fields
+     * @param boolean $isSearch
+     * @return self
      */
     public function bindParameters(array $fields, bool $isSearch = false) : self
     {
@@ -148,6 +154,8 @@ class DataMapper implements DataMapperInterface
 
     /**
      * @inheritDoc
+     *
+     * @return void
      */
     public function execute()
     {
@@ -156,6 +164,8 @@ class DataMapper implements DataMapperInterface
     }
     /**
      * @inheritDoc
+     *
+     * @return integer
      */
     public function numRows() : int
     {
@@ -163,6 +173,8 @@ class DataMapper implements DataMapperInterface
     }
     /**
      * @inheritDoc
+     *
+     * @return Object
      */
     public function result() : Object
     {
@@ -170,6 +182,8 @@ class DataMapper implements DataMapperInterface
     }
     /**
      * @inheritDoc
+     *
+     * @return array
      */
     public function results() : array
     {
@@ -178,7 +192,8 @@ class DataMapper implements DataMapperInterface
 
     /**
      * @inheritDoc
-     * @throws Throwable
+     *
+     * @return integer
      */
     public function getLastId() : int
     {

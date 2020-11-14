@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Magma\DatabaseConnection;
 
 use Magma\DatabaseConnection\Exception\DatabaseConnectionException;
+use PDOException;
 use PDO;
 
 class DatabaseConnection implements DatabaseConnectionInterface
@@ -32,6 +33,8 @@ class DatabaseConnection implements DatabaseConnectionInterface
 
     /**
      * @inheritDoc
+     *
+     * @return PDO
      */
     public function open() : PDO
     {
@@ -48,7 +51,7 @@ class DatabaseConnection implements DatabaseConnectionInterface
                 $this->credentials['password'],
                 $params
             );
-        } catch(Exception $expection) {
+        } catch(PDOException $expection) {
             throw new DatabaseConnectionException($expection->getMessage(), (int)$expection->getCode());
         }
 
@@ -57,6 +60,8 @@ class DatabaseConnection implements DatabaseConnectionInterface
 
     /**
      * @inheritDoc
+     *
+     * @return void
      */
     public function close() : void
     {

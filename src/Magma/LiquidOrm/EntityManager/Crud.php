@@ -11,14 +11,19 @@ use Throwable;
 class Crud implements CrudInterface
 {
 
+    /** @var DataMapper */
     protected DataMapper $dataMapper;
 
+    /** @var QueryBuilder */
     protected QueryBuilder $queryBuilder;
 
+    /** @var string */
     protected string $tableSchema;
 
+    /** @var string */
     protected string $tableSchemaID;
 
+    /** @var array */
     protected array $options;
 
     /**
