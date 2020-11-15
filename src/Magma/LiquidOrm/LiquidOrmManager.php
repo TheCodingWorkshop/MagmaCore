@@ -13,15 +13,26 @@ use Magma\LiquidOrm\QueryBuilder\QueryBuilder;
 
 class LiquidOrmManager
 {
-
+    /** @var string */
     protected string $tableSchema;
 
+    /** @var string */
     protected string $tableSchemaID;
 
+    /** @var array */
     protected array $options;
 
+    /** @var DataMapperEnvironmentConfiguration */
     protected DataMapperEnvironmentConfiguration $environmentConfiguration;
 
+    /**
+     * Main class constructor
+     *
+     * @param DataMapperEnvironmentConfiguration $environmentConfiguration
+     * @param string $tableSchema
+     * @param string $tableSchemaID
+     * @param array|null $options
+     */
     public function __construct(DataMapperEnvironmentConfiguration $environmentConfiguration, string $tableSchema, string $tableSchemaID, ?array $options = [])
     {
         $this->environmentConfiguration = $environmentConfiguration;
@@ -30,7 +41,13 @@ class LiquidOrmManager
         $this->options = $options;
     }
 
-    public function initialize()
+    /**
+     * initialize method which glues all the components together and inject the necessary dependency within the 
+     * respective object
+     *
+     * @return Object
+     */
+    public function initialize() : Object
     {
         $dataMapperFactory = new DataMapperFactory();
         $dataMapper = $dataMapperFactory->create(DatabaseConnection::class, DataMapperEnvironmentConfiguration::class);

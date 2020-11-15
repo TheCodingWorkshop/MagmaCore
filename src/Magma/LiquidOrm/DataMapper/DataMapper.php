@@ -13,15 +13,11 @@ use PDO;
 class DataMapper implements DataMapperInterface
 {
 
-    /**
-     * @var DatabaseConnectionInterface
-     */
+    /** @var DatabaseConnectionInterface */
     private DatabaseConnectionInterface $dbh;
 
-    /**
-     * @var PDOStateemnt
-     */
-    private PDOStatement $stmt;
+    /** @var PDOStatement */
+    private PDOStatement $statementp;
 
     /**
      * Main constructor class
@@ -83,7 +79,7 @@ class DataMapper implements DataMapperInterface
         try {
             switch($value) {
                 case is_bool($value) :
-                case intval($value);
+                case intval($value) :
                     $dataType = PDO::PARAM_INT;
                     break;
                 case is_null($value) :
