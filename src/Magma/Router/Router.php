@@ -48,7 +48,7 @@ class Router implements RouterInterface
             $controllerString = $this->getNamespace($controllerString);
 
             if (class_exists($controllerString)) {
-                $controllerObject = new $controllerString();
+                $controllerObject = new $controllerString($this->params);
                 $action = $this->params['action'];
                 $action = $this->transformCamelCase($action);
 
