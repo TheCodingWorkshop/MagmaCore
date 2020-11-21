@@ -148,7 +148,7 @@ class QueryBuilder implements QueryBuilderInterface
                         $sort[] = $where . " = :" . $where;
                     }
                 }
-                if (count($this->key['condition']) > 0) {
+                if (count($this->key['conditionsp']) > 0) {
                     $this->sqlQuery .= " WHERE " . implode(" AND ", $sort);
                 }
             }
