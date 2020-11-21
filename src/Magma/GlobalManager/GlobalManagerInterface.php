@@ -14,14 +14,15 @@ interface GlobalManagerInterface
      * @param mixed $value
      * @return void
      */
-    public function set(string $key, $value) : void;
+    public static function set(string $key, $value) : void;
 
     /**
      * Get the value of the set global variable
      * 
      * @param string $key
      * @return mixed
+     * @throws GlobalManagerException;
      */
-    public function get(string $key);
+    public static function get(string $key);
 
 }
