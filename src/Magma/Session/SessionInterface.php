@@ -62,7 +62,7 @@ interface SessionInterface
      * @param mixed $default - The default value to return if the requested value cannot be found
      * @return mixed
      */
-    public function flush(string $key, $value);
+    public function flush(string $key, $value = null);
 
     /**
      * Determines whether an item is present in the session.
