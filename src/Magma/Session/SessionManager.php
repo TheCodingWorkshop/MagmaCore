@@ -16,7 +16,7 @@ class SessionManager
      *
      * @return void
      */
-    public function initialize()
+    public static function initialize()
     {
         $factory = new SessionFactory();
         return $factory->create('', \Magma\Session\Storage\NativeSessionStorage::class, array());
