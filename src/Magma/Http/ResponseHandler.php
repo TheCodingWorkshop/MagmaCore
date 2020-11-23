@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 class ResponseHandler
 {
 
+    /**
+     * Wrapper method for symfony http response object
+     *
+     * @return Response
+     */
     public function handler() : Response
     {
         if (!isset($response)) {

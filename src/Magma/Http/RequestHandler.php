@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
 class RequestHandler
 {
 
+    /**
+     * Wrapper method for symfony http request object
+     *
+     * @return Request
+     */
     public function handler() : Request
     {
         if (!isset($request)) {
