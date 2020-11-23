@@ -24,6 +24,13 @@ class ErrorHandling
         throw new ErrorException($message, 0, $file, $line);
     }
 
+    /**
+     * Exception handler.
+     *
+     * @param Exception $exception The exception
+     * @return void
+     * @throws Exception
+     */
     public static function exceptionHandler($exception)
     {
         $code = $exception->getCode();

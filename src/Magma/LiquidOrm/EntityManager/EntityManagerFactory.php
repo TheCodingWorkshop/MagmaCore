@@ -12,12 +12,14 @@ use Magma\LiquidOrm\DataMapper\DataMapperInterface;
 class EntityManagerFactory
 {
 
+    /** @var DataMapperInterface */
     protected DataMapperInterface $dataMapper;
 
+    /** @var QueryBuilderInterface */
     protected QueryBuilderInterface $queryBuilder;
 
     /**
-     * Undocumented function
+     * Main class constructor
      *
      * @param DataMapperInterface $dataMapper
      * @param QueryBuilderInterface $queryBuilder
@@ -29,7 +31,7 @@ class EntityManagerFactory
     }
 
     /**
-     * Undocumented function
+     * Create the entityManager obejct and inject the dependency which is the crud object
      *
      * @param string $crudString
      * @param string $tableSchema

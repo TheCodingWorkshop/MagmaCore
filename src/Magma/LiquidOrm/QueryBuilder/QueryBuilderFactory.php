@@ -19,6 +19,12 @@ class QueryBuilderFactory
     public function __construct()
     { }
 
+    /**
+     * Create the QueryBuilder object
+     *
+     * @param string $queryBuilderString
+     * @return QueryBuilderInterface
+     */
     public function create(string $queryBuilderString) : QueryBuilderInterface
     {
         $queryBuilderObject = new $queryBuilderString();
