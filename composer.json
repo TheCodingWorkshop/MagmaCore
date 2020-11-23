@@ -28,7 +28,8 @@
         "ext-curl": "*",
         "ext-simplexml": "*",
         "twig/twig": "^3.1",
-        "symfony/http-foundation": "^5.2@RC"
+        "symfony/http-foundation": "^5.2@RC",
+        "symfony/yaml": "^5.2@RC"
     },
     "autoload": {
         "psr-4": {

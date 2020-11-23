@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "41cd07a39ed01f958244b71a3a33adaf",
+    "content-hash": "817ebe3920444c7b37b87cb98af0fb31",
     "packages": [
         {
             "name": "symfony/deprecation-contracts",
@@ -389,6 +389,81 @@
             "time": "2020-10-23T14:02:19+00:00"
         },
         {
+            "name": "symfony/yaml",
+            "version": "v5.2.0-RC2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "34b513f1bfb3677fc40aac34f8e4397eba4066ed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/34b513f1bfb3677fc40aac34f8e4397eba4066ed",
+                "reference": "34b513f1bfb3677fc40aac34f8e4397eba4066ed",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.1",
+                "symfony/polyfill-ctype": "~1.8"
+            },
+            "conflict": {
+                "symfony/console": "<4.4"
+            },
+            "require-dev": {
+                "symfony/console": "^4.4|^5.0"
+            },
+            "suggest": {
+                "symfony/console": "For validating YAML files using the lint command"
+            },
+            "bin": [
+                "Resources/bin/yaml-lint"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/yaml/tree/v5.2.0-RC2"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-11-15T22:55:04+00:00"
+        },
+        {
             "name": "twig/twig",
             "version": "v3.1.1",
             "source": {
@@ -469,7 +544,8 @@
     "aliases": [],
     "minimum-stability": "alpha",
     "stability-flags": {
-        "symfony/http-foundation": 5
+        "symfony/http-foundation": 5,
+        "symfony/yaml": 5
     },
     "prefer-stable": false,
     "prefer-lowest": false,
