@@ -39,7 +39,7 @@ class YamlConfig
             $parts = parse_url($file);
             $path = $parts['path'];
             if (strpos($path, $yamlFile) !== false) {
-                return Yaml::parseFile($yamlFile);
+                return Yaml::parseFile($file);
             }
         }
     }

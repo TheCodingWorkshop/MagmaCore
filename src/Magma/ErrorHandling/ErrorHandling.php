@@ -44,7 +44,7 @@ class ErrorHandling
             echo "<h1>Fatal Error</h1";
             echo "<p>Uncaught exception: " . get_class($exception) . "</p>";
             echo "<p>Message: " . $exception->getMessage() . "</p>";
-            echo "<p>Stack trace: " . $exception->gegTraceAsStrin() . "</p>";
+            echo "<p>Stack trace: " . $exception->getTraceAsString() . "</p>";
             echo "<p>Thrown in " . $exception->getFile() . " on line " . $exception->getLine() . "</p>";
         } else {
             $errorLog = LOG_DIR . "/" . date("Y-m-d H:is") . ".txt";
