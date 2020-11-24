@@ -50,9 +50,9 @@ class YamlConfig
      * @param string $yamlFile
      * @return void
      */
-    public static function file(string $yamlFile)
+    public static function file(string $yamlFile) : array
     {
-        return (new YamlConfig)->getYaml($yamlFile);
+        return (array)(new YamlConfig)->getYaml($yamlFile);
     }
 
 }

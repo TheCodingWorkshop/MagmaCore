@@ -6,5 +6,6 @@ secure: false
 httponly: true
 gc_maxlifetime: '1800'
 gc_probability: '1000'
-gc_divisors: '1'
+gc_divisor: '1'
 use_cookies: '1'
+cookie_lifetime: '1'

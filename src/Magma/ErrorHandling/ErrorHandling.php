@@ -18,7 +18,7 @@ class ErrorHandling
      */
     public static function errorHandler($severity, $message, $file, $line)
     {
-        if (!(error_reporting() && $severity)) {
+        if (!error_reporting() !== 0) {
             return;
         }
         throw new ErrorException($message, 0, $file, $line);
@@ -41,11 +41,13 @@ class ErrorHandling
 
         $error = true;
         if ($error) {
+            echo "<div style='font-size: 7px; font-weight:normal'>";
             echo "<h1>Fatal Error</h1";
             echo "<p>Uncaught exception: " . get_class($exception) . "</p>";
             echo "<p>Message: " . $exception->getMessage() . "</p>";
             echo "<p>Stack trace: " . $exception->getTraceAsString() . "</p>";
             echo "<p>Thrown in " . $exception->getFile() . " on line " . $exception->getLine() . "</p>";
+            echo "</div>";
         } else {
             $errorLog = LOG_DIR . "/" . date("Y-m-d H:is") . ".txt";
             ini_set('error_log', $errorLog);

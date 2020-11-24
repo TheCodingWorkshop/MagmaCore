@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Magma\Session\Storage;
 
+use Magma\Base\Exception\BaseException;
+use Throwable;
+
 abstract class AbstractSessionStorage implements SessionStorageInterface
 {
 
@@ -18,7 +21,8 @@ abstract class AbstractSessionStorage implements SessionStorageInterface
      */
     public function __construct(array $options = [])
     {
-        $this->options = $options;
+        if ($options)
+            $this->options = $options;
 
         $this->iniSet();
         // Destroy any existing sessions started with session.auto_start
