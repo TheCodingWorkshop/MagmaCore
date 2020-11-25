@@ -7,6 +7,7 @@ namespace Magma\Application;
 use Magma\Application\Config;
 use Magma\Yaml\YamlConfig;
 use Magma\Traits\SystemTrait;
+use Magma\Router\RouterManager;
 
 class Application
 {
@@ -84,6 +85,12 @@ class Application
     public function setSession()
     {
         SystemTrait::sessionInit(true);
+        return $this;
+    }
+
+    public function setRouteHandler(string $url) : self
+    {
+        RouterManager::dispatchRoute($url);
         return $this;
     }
 

@@ -1,5 +1,5 @@
 session_name: 'magmaCore__' #The unqiue session name
-lifetime: '120'  #The lifetime of the cookie in seconds.
+lifetime: '0'    #The lifetime of the cookie in seconds.
 path: '/'        #The path where the information is stored.
 domain: ''       #The domain the cookie belongs to.
 secure: false    #The cookie should only be sent over secure connections

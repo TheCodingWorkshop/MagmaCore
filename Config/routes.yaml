@@ -1,0 +1,7 @@
+'':
+  controller: Home
+  action: index
+
+login:
+  controller: Security
+  action: login

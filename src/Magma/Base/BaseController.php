@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\Base;
 
+use Magma\Base\Exception\BaseBadMethodCallException;
 use Magma\Base\Exception\BaseLogicException;
 use Magma\Base\Exception\BaseException;
 use Magma\Base\BaseView;
@@ -52,10 +53,10 @@ class BaseController
      *
      * @param $name
      * @param $arguments
-     * @throws BaseException
+     * @throws BaseBadMethodCallException
      * @return void
      */
-    public function __call($name, $arguments)
+    public function __call($name, $arguments) : void
     {
         $method = $name . 'Action';
         if (method_exists($this, $method)) {
@@ -64,23 +65,24 @@ class BaseController
                 $this->after();
             }
         } else {
-            throw new BaseException('Method ' . $method . ' not found in controller ' . get_class($this));
+            throw new BaseBadMethodCallException('Method ' . $method . ' does not exist in ' . get_class($this));
         }
     }
 
     /**
-     * Before method. Call before controller action method
+     * Before method which is called before a controller method
+     *
      * @return void
      */
     protected function before()
-    { }
+    {}
 
     /**
-     * After method. Call after controller action method
+     * After method which is called after a controller method
+     *
      * @return void
      */
     protected function after()
-    { }
-
+    {}
 
 }
