@@ -34,7 +34,10 @@ class Router implements RouterInterface
      */
     public function add(string $route, array $params = []) : void
     {   
+        // Convert the route to a regular expression: escape forward slashes
         $route = preg_replace('/\//', '\\/', $route);
+
+        // Add start and end delimiters, and case insensitive flag
         $route = '/^' . $route . '$/i';
         
         $this->routes[$route] = $params;
