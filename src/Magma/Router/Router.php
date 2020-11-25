@@ -34,6 +34,7 @@ class Router implements RouterInterface
      */
     public function add(string $route, array $params = []) : void
     {
+
         $this->routes[$route] = $params;
     }
 
@@ -41,11 +42,11 @@ class Router implements RouterInterface
      * @inheritDoc
      */
     public function dispatch(string $url) : void
-    {
+    {        
         if ($this->match($url)) {
             $controllerString = $this->params['controller'];
             $controllerString = $this->transformUpperCamelCase($controllerString);
-            $controllerString = $this->getNamespace($controllerString);
+            $controllerString = $this->getNamespace($controllerString) . $controllerString;
 
             if (class_exists($controllerString)) {
                 $controllerObject = new $controllerString($this->params);
@@ -55,13 +56,13 @@ class Router implements RouterInterface
                 if (\is_callable([$controllerObject, $action])) {
                     $controllerObject->$action();
                 } else {
-                    throw new RouterBadMethodCallException();
+                    throw new RouterBadMethodCallException('Invalid method');
                 }
             } else {
-                throw new RouterException();
+                throw new RouterException('Controller class does not exist');
             }
         } else {
-            throw new RouterException();
+            throw new RouterException('404 ERROR no page found');
         }
     }
 
@@ -113,6 +114,5 @@ class Router implements RouterInterface
         }
         return $namespace;
     }
-
 
 }

@@ -80,7 +80,7 @@ abstract class AbstractSessionStorage implements SessionStorageInterface
         ini_set('session.gc_maxlifetime', $this->options['gc_maxlifetime']);
         ini_set('session.gc_divisor', $this->options['gc_divisor']);
         ini_set('session.gc_probability', $this->options['gc_probability']);
-        ini_set('session.cookie_lifetime', $this->options['cookie_lifetime']);
+        ini_set('session.lifetime', $this->options['lifetime']);
         ini_set('session.use_cookies', $this->options['use_cookies']);
     }
 

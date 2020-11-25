@@ -5,7 +5,6 @@ if (is_file($autolaod)) {
     require $autolaod;
 }
 use Magma\Application\Application;
-use Magma\Session\SessionManager;
 $app = new Application(ROOT_PATH);
 $app->run()
 ->setSession();

@@ -1,0 +1,64 @@
+# Determine the RewriteBase automatically and set it as environment variable.
+# If you are using Apache aliases to do mass virtual hosting or installed the
+# project in a subdirectory, the base path will be prepended to allow proper
+# resolution of the index.php file and to redirect to the correct URI. It will
+# work in environments without path prefix as well, providing a safe, one-size
+# fits all solution. But as you do not need it in this case, you can comment
+# the following 2 lines to eliminate the overhead.
+<IfModule mod_rewrite.c>
+    # By default, Apache does not evaluate symbolic links if you did not enable this
+    # feature in your server configuration. Uncomment the following line if you
+    # install assets as symlinks or if you experience problems related to symlinks
+    # when compiling LESS/Sass/CoffeScript assets.
+    # Options FollowSymlinks
+
+    # Disabling MultiViews prevents unwanted negotiation, e.g. "/index" should not resolve
+    # to the front controller "/index.php" but be rewritten to "/index.php/index".
+    # Remove the question mark from the request but maintain the query string
+    RewriteEngine On
+    RewriteBase /
+
+    ## Begin - X-Forwarded-Proto
+    # In some hosted or load balanced environments, SSL negotiation happens upstream.
+    # In order for Lava-Studio to recognize the connection as secure, you need to uncomment
+    # the following lines.
+    #
+    # RewriteCond %{HTTP:X-Forwarded-Proto} https
+    # RewriteRule .* - [E=HTTPS:on]
+    #
+    ## End - X-Forwarded-Proto
+
+    ## Begin - Index
+    # If the requested filename exists, simply serve it.
+    # We only want to let Apache serve files and not directories.
+    # Rewrite all other queries to the front controller.
+    # If the requested path and file is not /index.php and the request
+    # has not already been internally rewritten to the index.php script
+    # RewriteCond %{REQUEST_URI} !^/index\.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-l
+    RewriteRule ^(.*)$ index.php?$1 [L,QSA]
+    ## End - Index
+
+    ## Begin - Security
+    # Block all direct access for these folders
+    RewriteRule ^(\.git|bin|tmp|storage|webserver-configs|tests)/(.*) error [F]
+    # Block access to specific file types for these system folders
+    RewriteRule ^(core|vendor)/(.*)\.(txt|xml|md|html|yaml|yml|php|pl|py|cgi|twig|sh|bat)$ error [F]
+    # Block access to specific file types for these user folders
+    RewriteRule ^(public)/(.*)\.(txt|md|yaml|yml|php|pl|py|cgi|twig|sh|bat)$ error [F]
+    # Block all direct access to .md files:
+    RewriteRule \.md$ error [F]
+    # Block all direct access to files and folders beginning with a dot
+    RewriteRule (^|/)\.(?!well-known) - [F]
+    # Block access to specific files in the root folder
+    RewriteRule ^(LICENSE\.txt|composer\.lock|composer\.json|\.htaccess)$ error [F]
+    ## End - Security
+
+</IfModule>
+
+# Begin - Prevent Browsing and Set Default Resources
+Options -Indexes
+DirectoryIndex index.php index.html index.htm
+# End - Prevent Browsing and Set Default Resources

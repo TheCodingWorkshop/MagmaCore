@@ -1,11 +1,33 @@
-session_name: ''
-lifetime: '0'
-path: '/'
-domain: ''
-secure: false
-httponly: true
+session_name: 'magmaCore__' #The unqiue session name
+lifetime: '120'  #The lifetime of the cookie in seconds.
+path: '/'        #The path where the information is stored.
+domain: ''       #The domain the cookie belongs to.
+secure: false    #The cookie should only be sent over secure connections
+httponly: true   #The cookie can only be access through HTTP protocol.
+samesite: lax    #Controls the cross-domain sending of the cookie.
+                 # - supports 'lax', 'strict', 'none', null
+
+#specifies the number of seconds after which data will be seen as
+#'garbage' and potentially cleaned up.
 gc_maxlifetime: '1800'
+#in conjunction with session.gc_divisor is used to manage probability 
+#that the gc (garbage collection) routine is started.
 gc_probability: '1000'
-gc_divisor: '1'
+#coupled with session.gc_probability defines the probability that the gc (garbage collection) process is started on every session initialization. The probability is calculated by using gc_probability/gc_divisor, e.g. 1/100 means there is a 1% chance that the GC process starts on each request. session.gc_divisor defaults to 100.
+gc_divisor: '100'
+#specifies whether the module will use cookies to store the session id on the client side. Defaults to 1 (enabled).
 use_cookies: '1'
-cookie_lifetime: '1'
+
+#driver:
+  #file:
+    #class: \Magma\Session\Storage\NativeSessionStorage
+    #alias: native_storage
+    #default: true
+  #database:
+    #class: \Magma\Session\Storage\PDOSessionStorage
+    #alias: pdo_database
+    #default: false
+  #array:
+    #class: \Magma\Session\Storage\ArraySessionStorage
+    #alias: array_storage
+    #default: false

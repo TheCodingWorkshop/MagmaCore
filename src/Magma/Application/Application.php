@@ -14,6 +14,8 @@ class Application
     /** @var string */
     protected string $appRoot;
 
+    protected array $options = [];
+
     /**
      * Main class constructor
      *
