@@ -6,6 +6,7 @@ namespace Magma\LiquidOrm\EntityManager;
 
 use Magma\LiquidOrm\DataMapper\DataMapper;
 use Magma\LiquidOrm\QueryBuilder\QueryBuilder;
+use Magma\LiquidOrm\EntityManager\CrudInterface;
 use Throwable;
 
 class Crud implements CrudInterface

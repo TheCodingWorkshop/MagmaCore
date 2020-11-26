@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\DataRepository;
 
+use Magma\LiquidOrm\DataMapper\DataMapperEnvironmentConfiguration;
 use Magma\LiquidOrm\DataRepository\Exception\DataRepositoryException;
+use Magma\LiquidOrm\EntityManager\EntityManagerInterface;
+use Magma\LiquidOrm\LiquidOrmManager;
+use Magma\Yaml\YamlConfig;
 
 class DataRepositoryFactory
 {
@@ -38,13 +42,21 @@ class DataRepositoryFactory
      * @param string $dataRepositoryString
      * @return void
      */
-    public function create(string $dataRepositoryString)
+    public function create(string $dataRepositoryString) : DataRepositoryInterface
     {
-        $dataRepositoryObject = new $dataRepositoryString();
+        $entityManager = $this->initializeLiquidOrmManager();
+        $dataRepositoryObject = new $dataRepositoryString($entityManager);
         if (!$dataRepositoryObject instanceof DataRepositoryInterface) {
             throw new DataRepositoryException($dataRepositoryString . ' is not a valid repository object');
         }
         return $dataRepositoryObject;
+    }
+
+    public function initializeLiquidOrmManager()
+    {
+        $environmentConfiguration = new DataMapperEnvironmentConfiguration(YamlConfig::file('database'));
+        $ormManager = new LiquidOrmManager($environmentConfiguration, $this->tableSchema, $this->tableSchemaID);
+        return $ormManager->initialize();
     }
 
 }

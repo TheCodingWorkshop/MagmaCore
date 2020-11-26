@@ -17,7 +17,7 @@ class DataMapper implements DataMapperInterface
     private DatabaseConnectionInterface $dbh;
 
     /** @var PDOStatement */
-    private PDOStatement $statementp;
+    private PDOStatement $statement;
 
     /**
      * Main constructor class
@@ -64,6 +64,7 @@ class DataMapper implements DataMapperInterface
      */
     public function prepare(string $sqlQuery) : self
     {
+        //$this->isEmpty($sqlQuery);  need this
         $this->statement = $this->dbh->open()->prepare($sqlQuery);
         return $this;
     }
@@ -104,6 +105,7 @@ class DataMapper implements DataMapperInterface
      */
     public function bindParameters(array $fields, bool $isSearch = false) : self
     {
+        $this->isArray($fields);
         if (is_array($fields)) {
             $type = ($isSearch === false) ? $this->bindValues($fields) : $this->bindSearchValues($fields);
             if ($type) {
@@ -123,7 +125,7 @@ class DataMapper implements DataMapperInterface
      */
     protected function bindValues(array $fields) : PDOStatement
     {
-        $this->isArray($fields);
+        $this->isArray($fields); // don't need
         foreach ($fields as $key => $value) {
             $this->statement->bindValue(':' . $key, $value, $this->bind($value));
         }
@@ -141,7 +143,7 @@ class DataMapper implements DataMapperInterface
      */
     protected function bindSearchValues(array $fields) :  PDOStatement
     {
-        $this->isArray($fields);
+        $this->isArray($fields); // don't need
         foreach ($fields as $key => $value) {
             $this->statement->bindValue(':' . $key,  '%' . $value . '%', $this->bind($value));
         }

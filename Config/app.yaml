@@ -1,1 +1,1 @@
-database_driver: mysql
+pdo_driver: mysql
