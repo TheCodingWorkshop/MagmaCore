@@ -24,7 +24,7 @@ class QueryBuilder implements QueryBuilderInterface
         'where' => null,
         'and' => [],
         'or' => [],
-        'orderBy' => [],
+        'orderby' => [],
         'fields' => [],
         'primary_key' => '',
         'table' => '',
@@ -143,25 +143,41 @@ class QueryBuilder implements QueryBuilderInterface
         if (isset($this->key['conditions']) && $this->key['conditions'] !='') {
             if (is_array($this->key['conditions'])) {
                 $sort = [];
-                foreach (array_keys($this->key['conditions']) as $whereKey => $where) {
+                foreach (array_keys($this->key['conditions']) as $where) {
                     if (isset($where) && $where !='') {
                         $sort[] = $where . " = :" . $where;
                     }
                 }
-                if (count($this->key['conditionsp']) > 0) {
+                /* typo*/
+                /*if (count($this->key['conditionsp']) > 0) {
+                    $this->sqlQuery .= " WHERE " . implode(" AND ", $sort);
+                }*/
+                if (count($this->key['conditions']) > 0) {
                     $this->sqlQuery .= " WHERE " . implode(" AND ", $sort);
                 }
+
             }
         } else if (empty($this->key['conditions'])) {
             $this->sqlQuery = " WHERE 1";
         }
 
-        if (isset($this->key['orderBy']) && $this->key['orderBy'] !='') {
+        /*if (isset($this->key['orderBy']) && $this->key['orderBy'] !='') {
             $this->sqlQuery .= " ORDER BY " . $this->key['orderBy'] . " ";
         }
         if (isset($this->key['limit']) && $this->key['offset'] != -1) {
             $this->sqlQuery .= " LIMIT :offset, :limit";
+        }*/
+
+        // Append the orderby statement if set
+        if (isset($this->key["extras"]["orderby"]) && $this->key["extras"]["orderby"] != "") {
+            $this->sqlQuery .= " ORDER BY " . $this->key["extras"]["orderby"] . " ";
         }
+
+        // Append the limit and offset statement for adding pagination to the query
+        if (isset($this->key["params"]["limit"]) && $this->key["params"]["offset"] != -1) {
+            $this->sqlQuery .= " LIMIT :offset, :limit";
+        }
+
 
         return $this->sqlQuery;
     }

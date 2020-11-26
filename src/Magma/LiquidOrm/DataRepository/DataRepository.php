@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\DataRepository;
 
+use Exception;
 use Magma\LiquidOrm\DataRepository\Exception\DataRepositoryInvalidArgumentException;
 use Magma\LiquidOrm\DataRepository\DataRepositoryInterface;
 use Magma\LiquidOrm\EntityManager\EntityManagerInterface;
@@ -67,7 +68,8 @@ class DataRepository implements DataRepositoryInterface
     public function findAll() : array
     {
         try{
-            return $this->em->getCrud()->read();
+            //return $this->em->getCrud()->read();
+            return $this->findBy();
         }catch(Throwable $throwable) {
             throw $throwable;
         }

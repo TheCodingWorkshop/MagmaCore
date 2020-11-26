@@ -17,8 +17,8 @@ class HomeController extends BaseController
 
     public function indexAction()
     {
-        $repo = new UserModel();
-        var_dump($repo);
+        //$repo = new UserModel();
+        //var_dump($repo->getRepo()->find(1));
     }
 
     protected function before()
