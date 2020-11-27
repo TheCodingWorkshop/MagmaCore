@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\Base\Exception;
 
-use UnderflowException ;
+use UnderflowException;
 
 class BaseUnderflowException extends UnderflowException 
 { 

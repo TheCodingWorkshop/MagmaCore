@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\DataMapper;
 
+use Magma\Base\Exception\BaseInvalidArgumentException;
+use Magma\Base\Exception\BaseNoValueException;
 use Magma\LiquidOrm\DataMapper\Exception\DataMapperException;
 use Magma\DatabaseConnection\DatabaseConnectionInterface;
+//use Magma\LiquidOrm\DataMapper\Exception\DataMapperInvalidArgumentException;
 use PDOStatement;
 use Throwable;
 use PDO;
@@ -41,7 +44,7 @@ class DataMapper implements DataMapperInterface
     private function isEmpty($value, string $errorMessage = null)
     {
         if (empty($value)) {
-            throw new DataMapperException($errorMessage);
+            throw new BaseNoValueException($errorMessage);
         }
     }
 
@@ -50,12 +53,12 @@ class DataMapper implements DataMapperInterface
      * 
      * @param array $value
      * @return void
-     * @throws DataMapperException
+     * @throws BaseInvalidArgumentException
      */
     private function isArray(array $value)
     {
         if (!is_array($value)) {
-            throw new DataMapperException('Your argument needs to be an array');
+            throw new BaseInvalidArgumentException('Your argument needs to be an array');
         }
     }
 
@@ -64,7 +67,7 @@ class DataMapper implements DataMapperInterface
      */
     public function prepare(string $sqlQuery) : self
     {
-        //$this->isEmpty($sqlQuery);  need this
+        $this->isEmpty($sqlQuery);
         $this->statement = $this->dbh->open()->prepare($sqlQuery);
         return $this;
     }
@@ -121,7 +124,7 @@ class DataMapper implements DataMapperInterface
      * 
      * @param array $fields
      * @return PDOStatement
-     * @throws DataMapperException
+     * @throws BaseInvalidArgumentException
      */
     protected function bindValues(array $fields) : PDOStatement
     {
@@ -139,7 +142,7 @@ class DataMapper implements DataMapperInterface
      * 
      * @param array $fields
      * @return mixed
-     * @throws DataMapperException
+     * @throws BaseInvalidArgumentException
      */
     protected function bindSearchValues(array $fields) :  PDOStatement
     {

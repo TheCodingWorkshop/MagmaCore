@@ -43,7 +43,7 @@ interface SessionStorageInterface
      * @param string $key   The key of the item to store.
      * @param mixed  $value The value of the item to store. Must be serializable.
      * @return void
-     * @throws SessionStorageInvalidArgumentException MUST be thrown if the $key string is not a legal value.
+     * @throws BaseIna MUST be thrown if the $key string is not a legal value.
      */
     public function setSession(string $key, $value) : void;
 
@@ -53,7 +53,7 @@ interface SessionStorageInterface
      * @param string $key   The key of the item to store.
      * @param mixed  $value The value of the item to store. Must be serializable.
      * @return void
-     * @throws SessionStorageInvalidArgumentException MUST be thrown if the $key string is not a legal value.
+     * @throws BaseInvalidArgumentException MUST be thrown if the $key string is not a legal value.
      */
     public function setArraySession(string $key, $value) : void;
 
@@ -63,7 +63,7 @@ interface SessionStorageInterface
      * @param string $key   The key of the item to store.
      * @param mixed  $default the default value to return if the request value can't be found
      * @return mixed
-     * @throws SessionStorageInvalidArgumentException MUST be thrown if the $key string is not a legal value.
+     * @throws BaseInvalidArgumentException MUST be thrown if the $key string is not a legal value.
      */
     public function getSession(string $key, $default = null);
 
@@ -72,7 +72,7 @@ interface SessionStorageInterface
      *
      * @param string $key   The key of the item that will be unset.
      * @return void
-     * @throws SessionStorageInvalidArgumentException
+     * @throws BaseInvalidArgumentException
      */
     public function deleteSession(string $key) : void;
 
@@ -97,7 +97,7 @@ interface SessionStorageInterface
      *
      * @param string $key The session item key.
      * @return bool
-     * @throws SessionStorageInvalidArgumentException  MUST be thrown if the $key string is not a legal value.
+     * @throws BaseInvalidArgumentException  MUST be thrown if the $key string is not a legal value.
      */
     public function hasSession(string $key) : bool;
 

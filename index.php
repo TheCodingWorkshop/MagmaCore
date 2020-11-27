@@ -8,4 +8,4 @@ use Magma\Application\Application;
 $app = new Application(ROOT_PATH);
 $app->run()
 ->setSession()
-->setRouteHandler($_SERVER['QUERY_STRING']);
+->setRouteHandler();

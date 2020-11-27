@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Magma\Router;
 
-use Magma\Router\Exception\RouterBadMethodCallException;
-use Magma\Router\Exception\RouterException;
+use Magma\Base\Exception\BaseBadFunctionCallException;
+use Magma\Base\Exception\BaseBadMethodCallException;
+use Magma\Base\Exception\BaseInvalidArgumentException;
 use Magma\Router\RouterInterface;
 
 class Router implements RouterInterface
@@ -61,13 +62,13 @@ class Router implements RouterInterface
                 if (\is_callable([$controllerObject, $action])) {
                     $controllerObject->$action();
                 } else {
-                    throw new RouterBadMethodCallException('Invalid method');
+                    throw new BaseBadMethodCallException('Invalid method');
                 }
             } else {
-                throw new RouterException('Controller class does not exist');
+                throw new BaseBadFunctionCallException('Controller class does not exist');
             }
         } else {
-            throw new RouterException('404 ERROR no page found');
+            throw new BaseInvalidArgumentException('404 ERROR no page found');
         }
     }
 

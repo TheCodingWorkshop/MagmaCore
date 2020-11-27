@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\QueryBuilder;
 
-use Magma\LiquidOrm\QueryBuilder\Exception\QueryBuilderException;
+use Magma\Base\Exception\BaseUnexpectedValueException;
 use Magma\LiquidOrm\QueryBuilder\QueryBuilderInterface;
 
 
@@ -23,7 +23,7 @@ class QueryBuilderFactory
     {
         $queryBuilderObject = new $queryBuilderString();
         if (!$queryBuilderString instanceof QueryBuilderInterface) {
-            throw new QueryBuilderException($queryBuilderString . ' is not a valid Query builder object.');
+            throw new BaseUnexpectedValueException($queryBuilderString . ' is not a valid Query builder object.');
         }
         return $queryBuilderObject;
     }
@@ -37,7 +37,7 @@ class QueryBuilderFactory
     {
         $queryBuilderObject = new $queryBuilderString();
         if (!$queryBuilderObject instanceof QueryBuilderInterface) {
-            throw new QueryBuilderException($queryBuilderString . ' is not a valid Query builder object.');
+            throw new BaseUnexpectedValueException($queryBuilderString . ' is not a valid Query builder object.');
         }
         return $queryBuilderObject;
     }

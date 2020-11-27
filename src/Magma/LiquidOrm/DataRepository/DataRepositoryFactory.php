@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\DataRepository;
 
+use Magma\Base\Exception\BaseUnexpectedValueException;
 use Magma\LiquidOrm\DataMapper\DataMapperEnvironmentConfiguration;
-use Magma\LiquidOrm\DataRepository\Exception\DataRepositoryException;
-use Magma\LiquidOrm\EntityManager\EntityManagerInterface;
 use Magma\LiquidOrm\LiquidOrmManager;
 use Magma\Yaml\YamlConfig;
 
@@ -41,13 +40,14 @@ class DataRepositoryFactory
      *
      * @param string $dataRepositoryString
      * @return void
+     * @throws BaseUnexpectedValueException
      */
     public function create(string $dataRepositoryString) : DataRepositoryInterface
     {
         $entityManager = $this->initializeLiquidOrmManager();
         $dataRepositoryObject = new $dataRepositoryString($entityManager);
         if (!$dataRepositoryObject instanceof DataRepositoryInterface) {
-            throw new DataRepositoryException($dataRepositoryString . ' is not a valid repository object');
+            throw new BaseUnexpectedValueException($dataRepositoryString . ' is not a valid repository object');
         }
         return $dataRepositoryObject;
     }

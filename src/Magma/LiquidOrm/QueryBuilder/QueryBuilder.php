@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\QueryBuilder;
 
-use Magma\LiquidOrm\QueryBuilder\Exception\QueryBuilderInvalidArgumentException;
-use Magma\LiquidOrm\QueryBuilder\Exception\QueryBuilderException;
-
+use Magma\Base\Exception\BaseInvalidArgumentException;
 
 class QueryBuilder implements QueryBuilderInterface
 {
@@ -45,7 +43,7 @@ class QueryBuilder implements QueryBuilderInterface
     public function buildQuery(array $args = []) : self
     {
         if (count($args) < 0) {
-            throw new QueryBuilderInvalidArgumentException();
+            throw new BaseInvalidArgumentException('Your BuildQuery method has no defined argument. Please fix this');
         }
         $arg = array_merge(self::SQL_DEFAULT, $args);
         $this->key = $arg;

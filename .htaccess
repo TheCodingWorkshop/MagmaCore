@@ -16,7 +16,7 @@
     # to the front controller "/index.php" but be rewritten to "/index.php/index".
     # Remove the question mark from the request but maintain the query string
     RewriteEngine On
-    RewriteBase /
+    RewriteBase /framework
 
     ## Begin - X-Forwarded-Proto
     # In some hosted or load balanced environments, SSL negotiation happens upstream.

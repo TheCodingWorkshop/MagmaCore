@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\DataRepository;
 
-use Exception;
-use Magma\LiquidOrm\DataRepository\Exception\DataRepositoryInvalidArgumentException;
+use Magma\Base\Exception\BaseInvalidArgumentException;
 use Magma\LiquidOrm\DataRepository\DataRepositoryInterface;
 use Magma\LiquidOrm\EntityManager\EntityManagerInterface;
 use Throwable;
@@ -29,7 +28,7 @@ class DataRepository implements DataRepositoryInterface
     private function  isArray(array $conditions) : void
     {
         if (!is_array($conditions))
-            throw new DataRepositoryInvalidArgumentException('The argument supplied is not an array');
+            throw new BaseInvalidArgumentException('The argument supplied is not an array');
     }
 
     /**
@@ -41,7 +40,7 @@ class DataRepository implements DataRepositoryInterface
     private function isEmpty(int $id) : void
     {
         if (empty($id))
-            throw new DataRepositoryInvalidArgumentException('Argument should not be empty');
+            throw new BaseInvalidArgumentException('Argument should not be empty');
     }
 
     /**
@@ -49,6 +48,7 @@ class DataRepository implements DataRepositoryInterface
      *
      * @param integer $id
      * @return array
+     * @throws BaseInvalidArgumentException
      */
     public function find(int $id) : array
     {
@@ -98,6 +98,7 @@ class DataRepository implements DataRepositoryInterface
      *
      * @param array $conditions
      * @return array
+     * @throws BaseInvalidArgumentException
      */
     public function findOneBy(array $conditions) : array
     {
@@ -128,6 +129,7 @@ class DataRepository implements DataRepositoryInterface
      * @param array $parameters
      * @param array $optional
      * @return array
+     * @throws BaseInvalidArgumentException
      */
     public function findBySearch(array $selectors = [], array $conditions = [], array $parameters = [], array $optional = []) : array
     {
@@ -144,6 +146,7 @@ class DataRepository implements DataRepositoryInterface
      *
      * @param array $conditions
      * @return boolean
+     * @throws BaseInvalidArgumentException
      */
     public function findByIdAndDelete(array $conditions) : bool
     {
@@ -167,6 +170,7 @@ class DataRepository implements DataRepositoryInterface
      * @param array $fields
      * @param integer $id
      * @return boolean
+     * @throws BaseInvalidArgumentException
      */
     public function findByIdAndUpdate(array $fields = [], int $id) : bool
     {

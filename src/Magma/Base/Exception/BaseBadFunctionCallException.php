@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\Base\Exception;
 
-use BadFunctionCallException ;
+use BadFunctionCallException;
 
 class BaseBadFunctionCallException  extends BadFunctionCallException 
 { 

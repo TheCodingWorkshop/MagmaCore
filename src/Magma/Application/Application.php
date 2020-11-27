@@ -7,7 +7,7 @@ namespace Magma\Application;
 use Magma\Application\Config;
 use Magma\Yaml\YamlConfig;
 use Magma\Traits\SystemTrait;
-use Magma\Router\RouterManager;
+use Magma\Router\RouterFactory;
 
 class Application
 {
@@ -88,9 +88,20 @@ class Application
         return $this;
     }
 
-    public function setRouteHandler(string $url) : self
+    /**
+     * Undocumented function
+     *
+     * @param string $url
+     * @param array $routes
+     * @return self
+     */
+    public function setRouteHandler(string $url = null, array $routes = []) : self
     {
-        RouterManager::dispatchRoute($url);
+        $url = ($url) ? $url : $_SERVER['QUERY_STRING'];
+        $routes = ($routes) ? $routes : YamlConfig::file('routes');
+        
+        $factory = new RouterFactory($url, $routes);
+        $factory->create(\Magma\Router\Router::class)->buildRoutes();
         return $this;
     }
 

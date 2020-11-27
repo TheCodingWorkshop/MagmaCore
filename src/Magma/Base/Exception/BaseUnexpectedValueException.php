@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\Base\Exception;
 
-use UnexpectedValueException ;
+use UnexpectedValueException;
 
 class BaseUnexpectedValueException  extends UnexpectedValueException 
 { 

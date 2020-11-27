@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\Base\Exception;
 
-use OutOfRangeException  ;
+use OutOfRangeException;
 
 class BaseOutOfRangeException   extends OutOfRangeException  
 { 

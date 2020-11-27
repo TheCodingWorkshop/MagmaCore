@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\DataMapper;
 
-use Magma\LiquidOrm\DataMapper\Exception\DataMapperException;
+use Magma\Base\Exception\BaseUnexpectedValueException;
 use Magma\DatabaseConnection\DatabaseConnectionInterface;
 use Magma\Yaml\YamlConfig;
 
@@ -37,7 +37,7 @@ class DataMapperFactory
      * @param string $databaseConnectionString
      * @param Object $dataMapperEnvironmentConfiguration
      * @return DataMapperInterface
-     * @throws DataMapperException
+     * @throws BaseUnexpectedValueException
      */
     public function create(string $databaseConnectionString, Object $dataMapperEnvironmentConfiguration) : DataMapperInterface
     {
@@ -45,7 +45,7 @@ class DataMapperFactory
         $credentials = $dataMapperEnvironmentConfiguration->getDatabaseCredentials(YamlConfig::file('app')['pdo_driver']);
         $databaseConnectionObject = new $databaseConnectionString($credentials);
         if (!$databaseConnectionObject instanceof DatabaseConnectionInterface) {
-            throw new DataMapperException($databaseConnectionString . ' is not a valid database connection object');
+            throw new BaseUnexpectedValueException($databaseConnectionString . ' is not a valid database connection object');
         }
         return new DataMapper($databaseConnectionObject);
     }
