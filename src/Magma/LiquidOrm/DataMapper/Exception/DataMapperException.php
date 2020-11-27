@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\DataMapper\Exception;
 
-use Exception;
+use Magma\Base\Exception\BaseException;
 
-class DataMapperException extends Exception 
+class DataMapperException extends BaseException 
 {}

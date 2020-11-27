@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\DataMapper\Exception;
 
-use InvalidArgumentException;
+use Magma\Base\Exception\BaseInvalidArgumentException;
 
-class DataMapperInvalidArgumentException extends InvalidArgumentException
+class DataMapperInvalidArgumentException extends BaseInvalidArgumentException
 { }

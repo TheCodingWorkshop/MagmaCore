@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\QueryBuilder\Exception;
 
-use Exception;
+use Magma\Base\Exception\BaseException;
 
-class QueryBuilderException extends Exception
+class QueryBuilderException extends BaseException
 { }

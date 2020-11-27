@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\QueryBuilder\Exception;
 
-use InvalidArgumentException;
+use Magma\Base\Exception\BaseInvalidArgumentException;
 
-class QueryBuilderInvalidArgumentException extends InvalidArgumentException
+class QueryBuilderInvalidArgumentException extends BaseInvalidArgumentException
 { }

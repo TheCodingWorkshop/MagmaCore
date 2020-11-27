@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\EntityManager\Exception;
 
-use Exception;
+use Magma\Base\Exception\BaseException;
 
-class EntityManagerException extends Exception 
+class EntityManagerException extends BaseException 
 { }

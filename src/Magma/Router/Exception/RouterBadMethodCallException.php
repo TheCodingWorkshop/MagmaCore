@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Magma\Router\Exception;
 
-use BadMethodCallException;
+use Magma\Base\Exception\BaseBadMethodCallException;
 
-class RouterBadMethodCallException extends BadMethodCallException
+class RouterBadMethodCallException extends BaseBadMethodCallException
 { }
