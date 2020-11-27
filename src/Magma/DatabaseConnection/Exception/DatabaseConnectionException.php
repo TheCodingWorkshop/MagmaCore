@@ -17,7 +17,7 @@ class DatabaseConnectionException extends PDOException
      * @param int $code
      * @return void
      */
-    public function __constructor($message = null, $code = null)
+    public function __construct($message = null, $code = null)
     {
         $this->message = $message;
         $this->code = $code;
