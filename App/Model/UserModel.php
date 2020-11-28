@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use Magma\Base\Abstracts\AbstractBaseModel;
+use Magma\Abstracts\AbstractBaseModel;
 
 class UserModel extends AbstractBaseModel
 {

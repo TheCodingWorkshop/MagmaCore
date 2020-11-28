@@ -68,7 +68,6 @@ class DataRepository implements DataRepositoryInterface
     public function findAll() : array
     {
         try{
-            //return $this->em->getCrud()->read();
             return $this->findBy();
         }catch(Throwable $throwable) {
             throw $throwable;
