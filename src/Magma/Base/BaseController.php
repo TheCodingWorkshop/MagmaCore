@@ -6,7 +6,6 @@ namespace Magma\Base;
 
 use Magma\Base\Exception\BaseBadMethodCallException;
 use Magma\Base\Exception\BaseLogicException;
-use Magma\Base\Exception\BaseException;
 use Magma\Base\BaseView;
 
 class BaseController
@@ -42,7 +41,7 @@ class BaseController
         if ($this->twig === null) {
             throw new BaseLogicException('You cannot use the render method if the twig bundle is not available.');
         }
-        return $this->twig->getTemplate($template, $context);
+        return $this->twig->twigRender($template, $context);
     }
 
     /**

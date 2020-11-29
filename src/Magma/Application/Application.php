@@ -53,7 +53,7 @@ class Application
         defined('DS') or define('DS', '/');
         defined('APP_ROOT') or define('APP_ROOT', $this->appRoot);
         defined('CONFIG_PATH') or define('CONFIG_PATH', APP_ROOT . DS . 'Config');
-        defined('TEMPLATE_PATH') or define('TEMPLATE_PATH', APP_ROOT . DS . 'App/Templates');
+        defined('TEMPLATE_PATH') or define('TEMPLATE_PATH', APP_ROOT . DS . 'App/');
         defined('LOG_DIR') or define('LOG_DIR', APP_ROOT . DS . 'tmp/log');
 
     }

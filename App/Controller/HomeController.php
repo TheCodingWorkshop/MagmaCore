@@ -18,10 +18,9 @@ class HomeController extends BaseController
     public function indexAction()
     {
         $user = new UserModel();
-        $data = $user->getRepo()->findOneBy(['id' => 1]);
-        var_dump($data);
-        die();
-
+        $this->render('client/home/index.html.twig', [
+            'users' => var_dump($user->getRepo()->findOneBy(['id' => 45]))
+        ]);
     }
 
     protected function before()
