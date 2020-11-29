@@ -99,5 +99,11 @@ interface DataRepositoryInterface
      */
     public function findAndReturn(int $id, array $selectors = []) : self;
 
+    /**
+     * Returns 404 error page if the findAndReturn method or property returns empty or null
+     *
+     * @return Object|null
+     */
+    public function or404();
 
 }

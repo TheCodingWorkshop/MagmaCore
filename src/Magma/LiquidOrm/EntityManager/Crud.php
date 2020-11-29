@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Magma\LiquidOrm\EntityManager;
 
-use Exception;
+use Magma\Base\Exception\BaseInvalidArgumentException;
+use Magma\Base\Exception\BaseUnexpectedValueException;
 use Magma\LiquidOrm\DataMapper\DataMapper;
 use Magma\LiquidOrm\QueryBuilder\QueryBuilder;
 use Magma\LiquidOrm\EntityManager\CrudInterface;
@@ -182,24 +183,58 @@ class Crud implements CrudInterface
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      *
-     * @param string $rawQuery
+     * @param array $selectors
+     * @param array $conditions
+     * @return Object|null
+     */
+    public function get(array $selectors = [], array $conditions = []) : ?Object
+    {
+        $args = ['table' => $this->getSchema(), 'type' => 'select', 'selectors' => $selectors, 'conditions' => $conditions];
+        $query = $this->queryBuilder->buildQuery($args)->selectQuery();
+        $this->dataMapper->persist($query, $this->dataMapper->buildQueryParameters($conditions));
+        if ($this->dataMapper->numRows() >= 0) {
+            return $this->dataMapper->result();
+        }
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @param string $sqlQuery
      * @param array|null $conditions
+     * @param string $resultType
      * @return void
      */
-    public function rawQuery(string $rawQuery, ?array $conditions = [])
+    public function rawQuery(string $sqlQuery, ?array $conditions = [], string $resultType = 'column')
     {
-        try{
-            $args = ['table' => $this->getSchema(), 'type' => 'raw', 'raw' => $rawQuery, 'conditions' => $conditions];
-            $query = $this->queryBuilder->buildQuery($args)->rawQuery();
-            $this->dataMapper->persist($query, $this->dataMapper->buildQueryParameters($conditions));
-            if ($this->dataMapper->numRows()) {
-
+        $args = ['table' => $this->getSchema(), 'type' => 'raw', 'conditions' => $conditions, 'raw' => $sqlQuery];
+        $query = $this->queryBuilder->buildQuery($args)->rawQuery();
+        $this->dataMapper->persist($query, $this->dataMapper->buildQueryParameters($conditions));
+        if ($this->dataMapper->numRows()) {
+            if (!in_array($resultType, ['fetch', 'fetch_all', 'column'])) {
+                throw new BaseInvalidArgumentException('Invalid 3rd argument. Your options are "fetch, fetch_all or column"');
             }
-        }catch(Throwable $throwable) {
-            throw $throwable;
+            switch ($resultType) {
+                case 'column' :
+                    //$data = $this->dataMapper->column(); not implemented yet!
+                    break;
+                case 'fetch' :
+                    $data = $this->dataMapper->result();
+                    break;
+                case 'fetch_all' :
+                    $data = $this->dataMapper->results();
+                    break;
+                default :
+                    throw new BaseUnexpectedValueException('Please choose a return type for this method ie. "fetch, fetch_all or column."');
+                    break;
+            }
+            if ($data) {
+                return $data;
+            }
         }
+
     }
 
 

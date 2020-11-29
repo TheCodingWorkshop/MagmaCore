@@ -19,7 +19,7 @@ class HomeController extends BaseController
     {
         $user = new UserModel();
         $this->render('client/home/index.html.twig', [
-            'users' => var_dump($user->getRepo()->findOneBy(['id' => 45]))
+            'users' => var_dump($user->getRepo()->findObjectBy(['id' => 45]))
         ]);
     }
 

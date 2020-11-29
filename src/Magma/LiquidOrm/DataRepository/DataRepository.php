@@ -118,6 +118,12 @@ class DataRepository implements DataRepositoryInterface
      */
     public function findObjectBy(array $conditions = [], array $selectors = []) : Object
     {
+        $this->isArray($conditions);
+        try{
+            return $this->em->getCrud()->get($selectors, $conditions);
+        } catch(Throwable $throwable) {
+            throw $throwable;
+        }
     }
 
     /**
@@ -197,7 +203,9 @@ class DataRepository implements DataRepositoryInterface
      */
     public function findWithSearchAndPaging(array $args, Object $request) : array
     { 
-        return [];
+        return [
+
+        ];
     }
 
     /**
@@ -209,7 +217,35 @@ class DataRepository implements DataRepositoryInterface
      */
     public function findAndReturn(int $id, array $selectors = []) : self
     { 
-        return $this;
+        if (empty($id) || $id === 0) {
+            throw new BaseInvalidArgumentException('Please add a valid argument');
+        }
+        try {
+            $this->findAndReturn = $this->findObjectBy($selectors, ['id' => $id]);
+            return $this;
+        }catch(Throwable $throwable) {
+            throw $throwable;
+        }
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @return Object|null
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function or404()
+    {
+        if ($this->findAndReturn !=null) {
+            return $this->findAndReturn;
+        } else {
+            header('HTTP/1.1 404 not found');
+            $twig = new \Magma\Base\BaseView();
+            $twig->twigRender('error/404.html.twig');
+            exit;
+        }
     }
 
 

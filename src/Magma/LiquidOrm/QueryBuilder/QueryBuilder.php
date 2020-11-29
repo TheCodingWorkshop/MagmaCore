@@ -5,32 +5,10 @@ declare(strict_types=1);
 namespace Magma\LiquidOrm\QueryBuilder;
 
 use Magma\Base\Exception\BaseInvalidArgumentException;
+use Magma\LiquidOrm\QueryBuilder\AbstractQueryBuilder;
 
-class QueryBuilder implements QueryBuilderInterface
+class QueryBuilder extends AbstractQueryBuilder
 {
-
-    protected array $key;
-
-    protected string $sqlQuery = '';
-
-    protected const SQL_DEFAULT = [
-        'conditions' => [],
-        'selectors' => [],
-        'replace' => false,
-        'distinct' => false,
-        'from' => [],
-        'where' => null,
-        'and' => [],
-        'or' => [],
-        'orderby' => [],
-        'fields' => [],
-        'primary_key' => '',
-        'table' => '',
-        'type' => '',
-        'raw' => ''
-    ];
-
-    protected const QUERY_TYPES = ['insert', 'select', 'update', 'delete', 'raw', 'search'];
 
     /**
      * Main constructor class
@@ -38,7 +16,9 @@ class QueryBuilder implements QueryBuilderInterface
      * @return void
      */
     public function __construct()
-    { }
+    {
+        parent::__construct();
+    }
 
     public function buildQuery(array $args = []) : self
     {
@@ -49,15 +29,6 @@ class QueryBuilder implements QueryBuilderInterface
         $this->key = $arg;
         return $this;
     }
-
-    private function isQueryTypeValid(string $type) : bool
-    {
-        if (in_array($type, self::QUERY_TYPES)) {
-            return true;
-        }
-        return false;
-    }
-
 
     public function insertQuery() : string
     {
@@ -128,12 +99,34 @@ class QueryBuilder implements QueryBuilderInterface
 
     public function searchQuery() : string
     {
-        return '';
+        if ($this->isQueryTypeValid('search ')) {
+            if (is_array($this->key['selectors']) && $this->key['selectors'] != '') {
+                $this->sqlQuery = "SELECT * FROM {$this->key['table']} WHERE ";
+                if ($this->has('selectors')) {
+                    $values = [];
+                    foreach ($this->key['selectors'] as $selector) {
+                        $values[] = $selector . " LIKE " . "{$selector}";
+                    }
+                    if (count($this->key['selectors']) >= 1) {
+                        $this->sqlQuery .= implode(" OR ", $values);
+                    }
+                }
+                //$this->sqlQuery .= $this->orderByQuery();
+                //$this->sqlQuery .= $this->queryOffset();
+            }
+            return $this->sqlQuery;
+        }
+        return false;
     }
 
     public function rawQuery(): string
     {
-        return '';
+        if ($this->isQueryTypeValid('raw')) {
+            $this->sqlQuery = $this->key['raw'];
+
+            return $this->sqlQuery;
+        }
+        return false;
     }
 
     private function hasConditions()
@@ -146,36 +139,15 @@ class QueryBuilder implements QueryBuilderInterface
                         $sort[] = $where . " = :" . $where;
                     }
                 }
-                /* typo*/
-                /*if (count($this->key['conditionsp']) > 0) {
-                    $this->sqlQuery .= " WHERE " . implode(" AND ", $sort);
-                }*/
                 if (count($this->key['conditions']) > 0) {
                     $this->sqlQuery .= " WHERE " . implode(" AND ", $sort);
                 }
-
             }
         } else if (empty($this->key['conditions'])) {
             $this->sqlQuery = " WHERE 1";
         }
-
-        /*if (isset($this->key['orderBy']) && $this->key['orderBy'] !='') {
-            $this->sqlQuery .= " ORDER BY " . $this->key['orderBy'] . " ";
-        }
-        if (isset($this->key['limit']) && $this->key['offset'] != -1) {
-            $this->sqlQuery .= " LIMIT :offset, :limit";
-        }*/
-
-        // Append the orderby statement if set
-        if (isset($this->key["extras"]["orderby"]) && $this->key["extras"]["orderby"] != "") {
-            $this->sqlQuery .= " ORDER BY " . $this->key["extras"]["orderby"] . " ";
-        }
-
-        // Append the limit and offset statement for adding pagination to the query
-        if (isset($this->key["params"]["limit"]) && $this->key["params"]["offset"] != -1) {
-            $this->sqlQuery .= " LIMIT :offset, :limit";
-        }
-
+        //$this->sqlQuery .= $this->orderByQuery();
+       //$this->sqlQuery .= $this->queryOffset();
 
         return $this->sqlQuery;
     }

@@ -79,8 +79,19 @@ interface CrudInterface
      * 
      * @param string $rawQuery
      * @param array|null $conditions
+     * @param string $resultType
      * @return mixed
      */
-    public function rawQuery(string $rawQuery, ?array $conditions = []);
+    public function rawQuery(string $rawQuery, ?array $conditions = [], string $resultType = 'column');
+
+    /**
+     * Returns a single table row as an object
+     * 
+     * @param array $selectors = []
+     * @param array $conditions = []
+     * @return null|Object
+     */
+    public function get(array $selectors = [], array $conditions = []) : ?Object;
+
 
 }
