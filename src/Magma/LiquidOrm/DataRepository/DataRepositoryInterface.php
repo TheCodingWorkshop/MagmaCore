@@ -88,7 +88,7 @@ interface DataRepositoryInterface
      * @param Object $request
      * @return array
      */
-    public function findWithSearchAndPaging(array $args, Object $request) : array;
+    public function findWithSearchAndPaging(Object $request, array $args = []) : array;
 
     /**
      * Find and item by its ID and return the object row else return 404 with the or404 chaining method

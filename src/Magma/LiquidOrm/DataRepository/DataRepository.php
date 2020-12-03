@@ -7,6 +7,8 @@ namespace Magma\LiquidOrm\DataRepository;
 use Magma\Base\Exception\BaseInvalidArgumentException;
 use Magma\LiquidOrm\DataRepository\DataRepositoryInterface;
 use Magma\LiquidOrm\EntityManager\EntityManagerInterface;
+use Magma\Utility\Paginator;
+use Magma\Utility\Sortable;
 use Throwable;
 
 class DataRepository implements DataRepositoryInterface
@@ -201,12 +203,64 @@ class DataRepository implements DataRepositoryInterface
      * @param Object $request
      * @return array
      */
-    public function findWithSearchAndPaging(array $args, Object $request) : array
+    public function findWithSearchAndPaging(Object $request, array $args = []) : array
     { 
-        return [
+        list($conditions, $totalRecords) = $this->getCurrentQueryStatus($request, $args);
 
+        $sorting = new Sortable($args['sort_columns']);
+        $paging = new Paginator($totalRecords, $args['records_per_page'], $request->query->getInt('page', 1));
+        $parameters = ['limit' => $args['records_per_page'], 'offset' => $paging->getOffset()];
+        $optional = ['orderby' => $sorting->getColumn() . ' ' . $sorting->getDirection()];
+
+        if ($request->query->getAlnum($args['filter_alias'])) {
+            $searchRequest = $request->query->getAlnum($args['filter_alias']);
+            if (is_array($args['filter_by'])) {
+                for ($i=0; $i < count($args['filter_by']); $i++) {
+                    $searchConditions = [$args['filter_by'][$i] => $searchRequest];
+                }
+            }
+            $results = $this->findBySearch($args['filter_by'], $searchConditions);
+        } else {
+            $queryConditions = array_merge($args['additional_conditions'], $conditions);
+            $results = $this->findBy($args['selectors'], $queryConditions, $parameters, $optional);
+        }
+        return [
+            $results,
+            $paging->getPage(),
+            $paging->getTotalPages(),
+            $totalRecords,
+            $sorting->sortDirection(),
+            $sorting->sortDescAsc(),
+            $sorting->getClass(),
+            $sorting->getColumn(),
+            $sorting->getDirection()
         ];
     }
+
+    private function getCurrentQueryStatus(Object $request, array $args)
+    {
+        $totalRecords = 0;
+        $req = $request->query;
+        $status = $req->getAlnum($args['query']);
+        $searchResults = $req->getAlnum($args['filter_alias']);
+        if ($searchResults) {
+            for ($i=0; $i < count($args['filter_by']); $i++) {
+                $conditions = [$args['filter_by'][$i] => $searchResults];
+                $totalRecords = $this->em->getCrud()->countRecords($conditions, $args['filter_by'][$i]);
+            }
+        } else if ($status) {
+            $conditions = [$args['query'] => $status];
+            $totalRecords = $this->em->getCrud()->countRecords($conditions);
+        } else {
+            $conditions = [];
+            $totalRecords = $this->em->getCrud()->countRecords($conditions);
+        }
+        return [
+            $conditions,
+            $totalRecords
+        ];
+    }
+
 
     /**
      * @inheritDoc

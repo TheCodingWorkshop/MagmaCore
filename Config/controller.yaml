@@ -1,0 +1,11 @@
+user:
+  additional_conditions: []
+  selectors: []
+  records_per_page: 10
+  query: status
+  filter_by: ['lastname']
+  filter_alias: 'search'
+  sort_columns:
+    - firstname
+    - created_at
+    - modified_at
