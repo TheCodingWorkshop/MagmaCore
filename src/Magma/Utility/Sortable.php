@@ -29,7 +29,7 @@ class Sortable
 
     public function __construct(array $columns)
     {
-        if (empty($column)) {
+        if (empty($columns)) {
             throw new BaseInvalidArgumentException('Invalid argument. Please specify a default columns array.');
         }
         $this->columns = $columns;
@@ -68,7 +68,7 @@ class Sortable
         }
     }
 
-    public function getClass()
+    public function getClass() : string
     {
         return $this->class;
     }

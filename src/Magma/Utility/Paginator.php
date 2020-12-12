@@ -25,7 +25,7 @@ class Paginator
      *
      * @return void
      */
-    public function __construct(float $totalRecords, int $recordsPerPage, int $page)
+    public function __construct(int $totalRecords, int $recordsPerPage, int $page)
     {
         // Make sure the page number is within a valid range from 1 to the total number of pages
         $this->totalPages = ceil($totalRecords / $recordsPerPage);

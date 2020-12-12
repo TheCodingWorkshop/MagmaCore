@@ -25,7 +25,7 @@ class UserColumns extends AbstractDatatableColumn
                 'dt_row' => 'Firstname',
                 'class' => '',
                 'show_column' => true,
-                'sortable' => false,
+                'sortable' => true,
                 'formatter' => ''
             ],
             [
@@ -72,7 +72,7 @@ class UserColumns extends AbstractDatatableColumn
                 'db_row' => 'gravatar',
                 'dt_row' => 'Thumbnail',
                 'class' => '',
-                'show_column' => true,
+                'show_column' => false,
                 'sortable' => false,
                 'formatter' => ''
             ],
@@ -80,7 +80,7 @@ class UserColumns extends AbstractDatatableColumn
                 'db_row' => 'ip',
                 'dt_row' => 'IP Address',
                 'class' => '',
-                'show_column' => true,
+                'show_column' => false,
                 'sortable' => false,
                 'formatter' => ''
             ],

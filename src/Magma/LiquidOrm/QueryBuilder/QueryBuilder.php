@@ -47,8 +47,11 @@ class QueryBuilder extends AbstractQueryBuilder
     {
         if ($this->isQueryTypeValid('select')) {
             $selectors = (!empty($this->key['selectors'])) ? implode(", ", $this->key['selectors']) : '*';
-            $this->sqlQuery = "SELECT {$selectors} FROM {$this->key['table']}";
-
+            if (isset($this->key['aggregate']) && $this->key['aggregate']) {
+                $this->sqlQuery = "SELECT {$this->key['aggregate']}({$this->key['aggregate_field']}) FROM {$this->key['table']}";
+            } else {
+                $this->sqlQuery = "SELECT {$selectors} FROM {$this->key['table']}";
+            }
             $this->sqlQuery = $this->hasConditions();
             return $this->sqlQuery;
 

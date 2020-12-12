@@ -93,5 +93,20 @@ interface CrudInterface
      */
     public function get(array $selectors = [], array $conditions = []) : ?Object;
 
+    /**
+     * @param string $type
+     * @param string $field
+     * @param array|null $conditions
+     * @return mixed
+     */
+    public function aggregate(string $type, ?string $field = 'id', array $conditions = []);
+
+    /**
+     * Returns the total number of records based on the method arguments
+     * @param array $conditions
+     * @param string|null $field
+     * @return int
+     */
+    public function countRecords(array $conditions = [], ?string $field = 'id') : int;
 
 }

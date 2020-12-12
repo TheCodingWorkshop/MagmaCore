@@ -5,15 +5,22 @@ declare(strict_types=1);
 namespace Magma\Datatable;
 
 use Magma\Base\Exception\BaseUnexpectedValueException;
+use Magma\Datatable\AbstractDatatable;
 
 class Datatable extends AbstractDatatable
 {
 
     protected string $element = '';
 
-    public function __construct(array $attributes)
+    /**
+     * Undocumented function
+     *
+     * @param array $attributes
+     * @return void
+     */
+    public function __construct()
     {
-        parent::__construct($attributes);
+        parent::__construct();
     }
 
     public function create(string $dataColumnString, array $dataRepository = [], array $sortController = []) : self
@@ -36,16 +43,15 @@ class Datatable extends AbstractDatatable
 
     public function table() : ?string
     {
-        extract($this->attr);
-
+        extract($this->attr, EXTR_SKIP);
         $this->element .= $before;
         if (is_array($this->dataColumns) && count($this->dataColumns) > 0) {
             if (is_array($this->dataOptions) && $this->dataOptions !=null) {
-                $this->element .= '<table id="' . (isset($table_id) ? $table_id : '') . '" class="'. implode(' ', $table_class) .'">';
-                    $this->element .= ($show_table_thead) ? $this->tableGridElements($status) : '';
-                    $this->element .= '<tbody>';
+                $this->element .= '<table id="' . (isset($table_id) ? $table_id : '') . '" class="'. implode(' ', $table_class) .'">' . "\n";
+                    $this->element .= ($show_table_thead) ? $this->tableGridElements($status) : false;
+                    $this->element .= '<tbody>' . "\n";
                         foreach ($this->dataOptions as $row) {
-                            $this->element .= '<tr>';
+                            $this->element .= '<tr>' . "\n";
                                 foreach ($this->dataColumns as $column) {
                                     if (isset($column['show_column']) && $column['show_column'] != false) {
                                         $this->element .= '<td class="' . $column['class'] . '">';
@@ -54,22 +60,23 @@ class Datatable extends AbstractDatatable
                                             } else {
                                                 $this->element .= (isset($row[$column['db_row']]) ? $row[$column['db_row']] : '');
                                             }
-                                        $this->element .= '</td>';
+                                        $this->element .= '</td>' . "\n";
                                     }
                                 }
-                            $this->element .= '</tr>';
+                            $this->element .= '</tr>' . "\n";
                         }
-                    $this->element .= '</tbody>';
-                    $this->element .= ($show_table_tfoot) ? $this->tableGridElements($status, true) : '';
-                $this->element .= '</table>';
+                    $this->element .= '</tbody>' . "\n";
+                    //$this->element .= ($show_table_tfoot) ? $this->tableGridElements($status, true) : '';
+                $this->element .= '</table>' . "\n";
             }
         }
+        $this->element .= $after;
 
-        return $element;
+        return $this->element;
         
     }
 
-    private function tableGridElements(string $status, bool $inFoot = false) : string
+    protected function tableGridElements(string $status, bool $inFoot = false) : string
     {
         $element = sprintf('<%s>', ($inFoot) ? 'tfoot' : 'thead');
             $element .= '<tr>';
@@ -81,7 +88,7 @@ class Datatable extends AbstractDatatable
                     }
                 }
             $element .= '</tr>';
-        $element = sprintf('</%s>', ($inFoot) ? 'tfoot' : 'thead');
+        $element .= sprintf('</%s>', ($inFoot) ? 'tfoot' : 'thead');
 
         return $element;
     }
@@ -90,7 +97,7 @@ class Datatable extends AbstractDatatable
     {
         $element = '';
         if (isset($column['sortable']) && $column['sortable'] != false) {
-            $element .= '<a class="uk-link-reset" href="' . ($status) ? '?status=' . $status . '&column=' . $column['db_row'] . '&order=' . $this->sortDirection . '' : '&column=' . $column['db_row'] . '&order=' . $this->sortDirection . '' . '">';
+            $element .= '<a class="uk-link-reset" href="' . ($status ? '?status=' . $status . '&column=' . $column['db_row'] . '&order=' . $this->sortDirection . '' : '?column=' . $column['db_row'] . '&order=' . $this->sortDirection . '') . '">';
             $element .= $column['dt_row'];
             $element .= '<i class="fas fa-sort' . ($this->tableColumn == $column['db_row'] ? '-' . $this->direction : '') . '"></i>';
             $element .= '</a>';

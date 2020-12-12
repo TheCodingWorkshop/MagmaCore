@@ -179,7 +179,6 @@ class Crud implements CrudInterface
         }catch(Throwable $throwable) {
             throw $throwable;
         }
-
     }
 
     /**
@@ -201,6 +200,33 @@ class Crud implements CrudInterface
 
     /**
      * @inheritDoc
+     * @throws Throwable
+     */
+    public function aggregate(string $type, ?string $field = 'id', array $conditions = [])
+    {
+        $args = ['table' => $this->getSchema(), 'primary_key'=>$this->getSchemaID(), 
+        'type' => 'select', 'aggregate' => $type, 'aggregate_field' => $field, 
+        'conditions' => $conditions];
+
+        $query = $this->queryBuilder->buildQuery($args)->selectQuery();
+        $this->dataMapper->persist($query, $this->dataMapper->buildQueryParameters($conditions));
+        if ($this->dataMapper->numRows() > 0)
+            return $this->dataMapper->column();
+    }
+
+    /**
+     * @inheritDoc
+     * @throws Throwable
+     */
+    public function countRecords(array $conditions = [], ?string $field = 'id') : int
+    {
+        if ($this->getSchemaID() !='') {
+            return empty($conditions) ? $this->aggregate('count', $this->getSchemaID()) : $this->aggregate('count', $this->getSchemaID(), $conditions);
+        }
+    }
+
+    /**
+     * @inheritDoc
      *
      * @param string $sqlQuery
      * @param array|null $conditions
@@ -209,7 +235,7 @@ class Crud implements CrudInterface
      */
     public function rawQuery(string $sqlQuery, ?array $conditions = [], string $resultType = 'column')
     {
-        $args = ['table' => $this->getSchema(), 'type' => 'raw', 'conditions' => $conditions, 'raw' => $sqlQuery];
+        /*$args = ['table' => $this->getSchema(), 'type' => 'raw', 'conditions' => $conditions, 'raw' => $sqlQuery];
         $query = $this->queryBuilder->buildQuery($args)->rawQuery();
         $this->dataMapper->persist($query, $this->dataMapper->buildQueryParameters($conditions));
         if ($this->dataMapper->numRows()) {
@@ -233,7 +259,7 @@ class Crud implements CrudInterface
             if ($data) {
                 return $data;
             }
-        }
+        }*/
 
     }
 

@@ -6,6 +6,7 @@ namespace Magma\LiquidOrm\DataMapper;
 
 use Magma\Base\Exception\BaseInvalidArgumentException;
 use Magma\Base\Exception\BaseNoValueException;
+use Magma\Base\Exception\BaseException;
 use Magma\LiquidOrm\DataMapper\Exception\DataMapperException;
 use Magma\DatabaseConnection\DatabaseConnectionInterface;
 //use Magma\LiquidOrm\DataMapper\Exception\DataMapperInvalidArgumentException;
@@ -94,7 +95,7 @@ class DataMapper implements DataMapperInterface
                     break;
             }
             return $dataType;
-        } catch(DataMapperException $exception) {
+        } catch(BaseException $exception) {
             throw $exception;
         }
     }
@@ -189,6 +190,14 @@ class DataMapper implements DataMapperInterface
     public function results() : array
     {
         if ($this->statement) return $this->statement->fetchAll();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function column()
+    {
+        if ($this->statement) return $this->statement->fetchColumn();
     }
 
     /**

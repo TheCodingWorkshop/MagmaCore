@@ -206,7 +206,6 @@ class DataRepository implements DataRepositoryInterface
     public function findWithSearchAndPaging(Object $request, array $args = []) : array
     { 
         list($conditions, $totalRecords) = $this->getCurrentQueryStatus($request, $args);
-
         $sorting = new Sortable($args['sort_columns']);
         $paging = new Paginator($totalRecords, $args['records_per_page'], $request->query->getInt('page', 1));
         $parameters = ['limit' => $args['records_per_page'], 'offset' => $paging->getOffset()];

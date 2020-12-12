@@ -32,21 +32,32 @@ abstract class AbstractDatatable implements DatatableInterface
 
     protected array $attr = [];
 
-    public function __construct(array $attributes)
+    public function __construct()
     {
-        if ($attributes) {
-            $this->attr = array_merge(self::TABLE_PROPERTIES, $attributes);
-        } else {
-            $this->attr = self::TABLE_PROPERTIES;
-        }
+        $this->attr = self::TABLE_PROPERTIES;
         foreach ($this->attr as $key => $value) {
             if (!$this->validAttributes($key, $value)) {
-                $this->validAttributes($key, self::TABLE_PROPERTIES[$key]);
+                $this->validAttributes($key, $value);
             }
         }
     }
 
-    private function validAttributes(string $key, $value) : void
+    public function setAttr($attributes = []) : self
+    {
+        if (is_array($attributes) && count($attributes) > 0) {
+            $propKeys = array_keys(self::TABLE_PROPERTIES);
+            foreach ($attributes as $key => $value) {
+                if (!in_array($key, $propKeys)) {
+                    throw new BaseInvalidArgumentException('Invalid property key set.');
+                }
+                $this->validAttributes($key, $value);
+                $this->attr[$key] = $value;
+            }
+        }
+        return $this;
+    }
+
+    protected function validAttributes(string $key, $value) : void
     {
         if (empty($key)) {
             throw new BaseInvalidArgumentException('Inavlid or empty attribute key. Ensure the key is present and of the correct data type ' . $value);
