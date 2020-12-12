@@ -15,7 +15,7 @@ class UserColumns extends AbstractDatatableColumn
             [
                 'db_row' => 'id',
                 'dt_row' => 'ID',
-                'class' => '',
+                'class' => 'id-class',
                 'show_column' => true,
                 'sortable' => false,
                 'formatter' => ''

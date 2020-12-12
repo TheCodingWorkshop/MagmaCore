@@ -7,6 +7,9 @@ namespace App\Controller;
 use Magma\Base\BaseController;
 use App\Model\UserModel;
 use Magma\Yaml\YamlConfig;
+use App\DataColumns\UserColumns;
+use Magma\Datatable\Datatable;
+use Magma\Http\RequestHandler;
 
 class HomeController extends BaseController
 {
@@ -20,8 +23,12 @@ class HomeController extends BaseController
     {
         $args = YamlConfig::file('controller')['user'];
         $user = new UserModel();
+        $repository = $user->getRepo()->findWithSearchAndPaging((new RequestHandler())->handler(), $args);
+
+        $tableData = (new Datatable())->create(UserColumns::class, $repository, $args)->setAttr(['table_id' => 'sexytable', 'table_class' => ['youtube-datatable']])->table();
+
         $this->render('client/home/index.html.twig', [
-            'users' => var_dump($user->getRepo()->findObjectBy(['id' => 35]))
+            'table' => $tableData
         ]);
     }
 
