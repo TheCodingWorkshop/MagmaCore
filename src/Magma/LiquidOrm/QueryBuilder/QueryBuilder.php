@@ -149,8 +149,8 @@ class QueryBuilder extends AbstractQueryBuilder
         } else if (empty($this->key['conditions'])) {
             $this->sqlQuery = " WHERE 1";
         }
-        //$this->sqlQuery .= $this->orderByQuery();
-       //$this->sqlQuery .= $this->queryOffset();
+        $this->sqlQuery .= $this->orderByQuery();
+        $this->sqlQuery .= $this->queryOffset();
 
         return $this->sqlQuery;
     }

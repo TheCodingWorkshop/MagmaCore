@@ -28,7 +28,8 @@ class HomeController extends BaseController
         $tableData = (new Datatable())->create(UserColumns::class, $repository, $args)->setAttr(['table_id' => 'sexytable', 'table_class' => ['youtube-datatable']])->table();
 
         $this->render('client/home/index.html.twig', [
-            'table' => $tableData
+            'table' => $tableData,
+            'pagination' => (new Datatable())->create(UserColumns::class, $repository, $args)->pagination()
         ]);
     }
 

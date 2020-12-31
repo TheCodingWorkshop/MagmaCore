@@ -41,7 +41,7 @@ class UserColumns extends AbstractDatatableColumn
                 'dt_row' => 'Email Address',
                 'class' => '',
                 'show_column' => true,
-                'sortable' => false,
+                'sortable' => true,
                 'formatter' => ''
             ],
             [
