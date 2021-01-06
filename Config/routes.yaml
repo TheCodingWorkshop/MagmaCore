@@ -5,3 +5,9 @@
 login:
   controller: Security
   action: login
+
+admin/{controller}/{action}:
+  namespace: Admin
+
+admin/{controller}/{id:[\da-f]+}/{action}:
+  namespace: Admin

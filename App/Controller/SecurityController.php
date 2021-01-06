@@ -9,7 +9,7 @@ use Magma\Base\BaseController;
 class SecurityController extends BaseController
 {
 
-    public function __construct($routeParams)
+    public function __construct(array $routeParams)
     {
         parent::__construct($routeParams);
     }

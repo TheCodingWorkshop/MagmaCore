@@ -16,6 +16,7 @@ if ( php_sapi_name() == 'cli-server' && is_file( $filename ) ) {
 }
 
 use Magma\Application\Application;
+use Magma\Router\Router;
 $app = new Application(ROOT_PATH);
 $app->run()
 ->setSession()
