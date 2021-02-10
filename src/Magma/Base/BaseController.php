@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Magma\Base;
 
 use Magma\Base\Exception\BaseBadMethodCallException;
+use Magma\Base\Exception\BaseInvalidArgumentException;
 use Magma\Base\Exception\BaseLogicException;
+
 use Magma\Base\BaseView;
 
 class BaseController
@@ -83,5 +85,60 @@ class BaseController
      */
     protected function after()
     {}
+
+    /**
+     * Method for allowing child controller class to dependency inject other objects
+     * @param array $args
+     * @return Object
+     * @throws BaseInvalidArgumentException
+     * @throws ReflectionException
+     */
+    public function create(array $args)
+    {
+        if (!is_array($args)) {
+            throw new BaseInvalidArgumentException('Invalid argument');
+        }
+        $args = func_get_args();
+        if ($args) {
+            $output = '';
+            foreach ($args as $arg) {
+                foreach ($arg as $key => $class) {
+                    if (strpos($class, $arg[$key]) !== false) {
+                        if ($class) {
+                            $output = ($key === 'dataColumns' || $key === 'column') ? $this->$key = $class : $this->$key = $this->getReflection($class);
+                        }
+                    }
+                }
+            }
+            return $output;
+        }
+    }
+
+    /**
+     * simple Dependency injection
+     * @param $className
+     * @return object
+     * @throws ReflectionException
+     */
+    public function getReflection($className)
+    {
+        try{
+            $reflector = new \ReflectionClass($className);
+            $constructor = $reflector->getConstructor();
+            if (!$constructor) return $reflector->newInstance();
+
+            $dependencies = [];
+            $params = $constructor->getParameters();
+            foreach ($params as $param) {
+                $paramType = $param->getClass();
+                if ($paramType) {
+                    $dependencies[] = $this->getReflection($paramType->name);
+                }
+            }
+            return $reflector->newInstanceArgs($dependencies);
+        } catch (\ReflectionException $e) {
+            throw $e;
+        }
+    }
 
 }

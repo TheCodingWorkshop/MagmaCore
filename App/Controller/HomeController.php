@@ -17,11 +17,11 @@ class HomeController extends BaseController
     public function __construct($routeParams)
     {
         parent::__construct($routeParams);
+
     }
 
     public function indexAction()
     {
-
         $args = YamlConfig::file('controller')['user'];
         $user = new UserModel();
         $repository = $user->getRepo()->findWithSearchAndPaging((new RequestHandler())->handler(), $args);
